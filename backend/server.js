@@ -1,5 +1,5 @@
 const WebSocket = require('ws');
-const wss = new WebSocket.Server({ port: 8080 });  // 监听 8080 端口
+const wss = new WebSocket.Server({ port: 8081 });  // 监听 8080 端口
 
 const groupRooms = {}; // 存储每个小组的 WebSocket 连接
 
@@ -35,3 +35,5 @@ wss.on('connection', ws => {
     console.log('连接关闭');
   });
 });
+
+console.log('WebSocket 服务器已启动，监听端口 8081');
