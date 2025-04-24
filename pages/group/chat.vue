@@ -34,7 +34,7 @@ export default {
 
         // 连接到 WebSocket
         uni.connectSocket({
-            url: `ws://localhost:8080/group/${this.groupId}`,  // 使用 groupId 创建房间
+            url: `ws://localhost:8081/group/${this.groupId}`,  // 使用 groupId 创建房间
         });
 
         // 监听 WebSocket 连接打开事件
