@@ -1,0 +1,157 @@
+<template>
+  <view class="container">
+    <!-- 搜索栏 -->
+    <view class="search-box">
+      <uni-search-bar placeholder="搜索小组/关键词" radius="20" @confirm="search" />
+    </view>
+
+    <!-- 分类导航 -->
+    <scroll-view scroll-x class="nav-scroll">
+      <view 
+        v-for="(item, index) in categories" 
+        :key="index"
+        :class="['nav-item', activeCategory === index ? 'active' : '']"
+        @click="switchCategory(index)"
+      >
+        {{ item }}
+      </view>
+    </scroll-view>
+
+    <!-- 推荐小组列表 -->
+    <view class="group-list">
+      <view 
+        v-for="(group, index) in groupList" 
+        :key="index"
+        class="group-card"
+        @click="navigateToDetail(group.id)"
+      >
+        <image class="group-cover" :src="group.cover"></image>
+        <view class="group-info">
+          <text class="group-title">{{ group.name }}</text>
+          <view class="meta">
+            <uni-icons type="person" size="14"></uni-icons>
+            <text>{{ group.memberCount }}人</text>
+            <text class="divider">|</text>
+            <uni-icons type="location" size="14"></uni-icons>
+            <text>{{ group.location }}</text>
+          </view>
+          <text class="group-desc">{{ group.description }}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      activeCategory: 0,
+      categories: ['全部', '语言学习', '考试备战', '技能提升', '读书会'],
+      groupList: [
+        {
+          id: 1,
+          name: '英语晨读打卡群',
+          cover: '/static/group-covers/english.png',
+          memberCount: 235,
+          location: '线上',
+          description: '每日清晨6:30准时打卡，互相监督学英语'
+        },
+        {
+          id: 2,
+          name: 'Python学习小组',
+          cover: '/static/group-covers/python.png',
+          memberCount: 100,
+          location: '线上',
+          description: '一起学习 Python，互相帮助，共同进步'
+        }
+        // 可以继续添加更多小组数据
+      ]
+    }
+  },
+  methods: {
+    search(value) {
+      console.log('搜索内容：', value);
+    },
+    switchCategory(index) {
+      this.activeCategory = index;
+    },
+    navigateToDetail(groupId) {
+      uni.navigateTo({
+        url: `/pages/group/index?id=${groupId}`
+      });
+    }
+  }
+}
+</script>
+
+<style scoped>
+.container {
+  padding: 20rpx;
+}
+
+.search-box {
+  padding: 20rpx 30rpx;
+  background: #fff;
+}
+
+.nav-scroll {
+  white-space: nowrap;
+  height: 80rpx;
+  background: #fff;
+}
+
+.nav-item {
+  display: inline-block;
+  padding: 0 30rpx;
+  line-height: 80rpx;
+  color: #666;
+  font-size: 28rpx;
+}
+
+.nav-item.active {
+  color: #007AFF;
+  font-weight: bold;
+  border-bottom: 4rpx solid #007AFF;
+}
+
+.group-card {
+  background: #fff;
+  border-radius: 16rpx;
+  margin: 20rpx 0;
+  display: flex;
+  padding: 20rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.05);
+}
+
+.group-cover {
+  width: 200rpx;
+  height: 200rpx;
+  border-radius: 8rpx;
+  margin-right: 20rpx;
+}
+
+.group-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  margin-bottom: 10rpx;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  color: #666;
+  font-size: 24rpx;
+  margin-bottom: 15rpx;
+}
+
+.divider {
+  margin: 0 10rpx;
+}
+
+.group-desc {
+  color: #666;
+  font-size: 26rpx;
+  line-height: 1.5;
+}
+</style>
